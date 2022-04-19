@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.D22.teamX;
 
+import edu.wpi.cs3733.D22.teamX.entity.*;
 import edu.wpi.cs3733.D22.teamX.exceptions.ServiceException;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +21,9 @@ public class MealRequestAPI {
       String originLocationID)
       throws ServiceException {
     try {
+      LocationDAO.getDAO().loadCSV();
+      EmployeeDAO.getDAO().loadCSV();
+      MealServiceRequestDAO.getDAO().loadCSV();
       Parent root = FXMLLoader.load(getClass().getResource("views/mealRequest.fxml"));
       Stage stage = new Stage();
       Scene scene = new Scene(root);

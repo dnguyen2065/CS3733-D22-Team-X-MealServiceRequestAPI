@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.D22.teamX.entity;
 
+import edu.wpi.cs3733.D22.teamX.MealRequestAPI;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +81,7 @@ public class LocationDAO implements DAO<Location> {
   @Override
   public boolean loadCSV() {
     try {
-      InputStream tlCSV = this.getClass().getResourceAsStream(csvFolderPath + csv);
+      InputStream tlCSV = MealRequestAPI.class.getResourceAsStream(csvFolderPath + csv);
       BufferedReader tlCSVReader = new BufferedReader(new InputStreamReader(tlCSV));
       tlCSVReader.readLine();
       String nextFileLine;

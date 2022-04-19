@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.D22.teamX.entity;
 
+import edu.wpi.cs3733.D22.teamX.MealRequestAPI;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +75,7 @@ public class EmployeeDAO implements DAO<Employee> {
   @Override
   public boolean loadCSV() {
     try {
-      InputStream emplCSV = this.getClass().getResourceAsStream(csvFolderPath + csv);
+      InputStream emplCSV = MealRequestAPI.class.getResourceAsStream(csvFolderPath + csv);
       BufferedReader emplCSVReader = new BufferedReader(new InputStreamReader(emplCSV));
       emplCSVReader.readLine();
       String nextFileLine;

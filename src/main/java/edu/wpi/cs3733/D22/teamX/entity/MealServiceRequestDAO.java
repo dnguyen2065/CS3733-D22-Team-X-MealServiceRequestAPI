@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.D22.teamX.entity;
 
+import edu.wpi.cs3733.D22.teamX.MealRequestAPI;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +93,7 @@ public class MealServiceRequestDAO implements DAO<MealServiceRequest> {
     try {
       LocationDAO locDestination = LocationDAO.getDAO();
       EmployeeDAO emplDAO = EmployeeDAO.getDAO();
-      InputStream PMSRCSV = this.getClass().getResourceAsStream(csvFolderPath + csv);
+      InputStream PMSRCSV = MealRequestAPI.class.getResourceAsStream(csvFolderPath + csv);
       BufferedReader PMSRCSVReader = new BufferedReader(new InputStreamReader(PMSRCSV));
       PMSRCSVReader.readLine();
       String nextFileLine;
