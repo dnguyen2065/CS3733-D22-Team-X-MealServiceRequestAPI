@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1620.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D22.teamX.controllers.MedicineDeliveryController">
+   <children>
+      <VBox alignment="TOP_RIGHT" layoutX="650.0" layoutY="440.0" spacing="18.0">
+         <children>
+            <Label text="Patient Name:">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label text="Rx Number:">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label text="Room Number:">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label text="Service Status:">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label text="Assignee:">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <JFXButton fx:id="submitRequest" layoutX="774.0" layoutY="624.0" mnemonicParsing="false" onAction="#submitForm" text="Submit Request" textFill="#446fdc">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <VBox layoutX="749.0" layoutY="439.0" spacing="12.0">
+         <children>
+            <ChoiceBox fx:id="patientName" prefWidth="150.0" />
+            <TextField fx:id="rxNum" />
+            <ChoiceBox fx:id="roomNum" prefWidth="150.0" />
+            <ChoiceBox fx:id="serviceStatus" prefWidth="150.0" />
+            <ChoiceBox fx:id="assignStaff" prefWidth="150.0" />
+         </children>
+      </VBox>
+      <JFXButton fx:id="resetFields" layoutX="786.0" layoutY="658.0" mnemonicParsing="false" onAction="#resetFields" text="Reset Form" textFill="#446fdc">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="674.0" layoutY="379.0" text="Request Medicine Delivery" textAlignment="CENTER" textFill="#446fdc">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
