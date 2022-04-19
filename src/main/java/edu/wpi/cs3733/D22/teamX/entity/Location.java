@@ -14,19 +14,15 @@ public class Location extends RecursiveTreeObject<Location> {
   private String longName, shortName;
   private List<ServiceRequest>
       requestsAtLocation; // ServiceRequests with this Location as their destination
-  private List<EquipmentUnit>
-      unitsAtLocation; // EquipmentUnits with this Location as their currLocation
 
   public Location() {
     this("", -1, -1, "", "", "", "", "");
     requestsAtLocation = new ArrayList<ServiceRequest>();
-    unitsAtLocation = new ArrayList<EquipmentUnit>();
   }
 
   public Location(String nodeID) {
     this(nodeID, -1, -1, "", "", "", "", "");
     requestsAtLocation = new ArrayList<ServiceRequest>();
-    unitsAtLocation = new ArrayList<EquipmentUnit>();
   }
 
   public Location(
@@ -47,7 +43,6 @@ public class Location extends RecursiveTreeObject<Location> {
     this.longName = longName;
     this.shortName = shortName;
     requestsAtLocation = new ArrayList<ServiceRequest>();
-    unitsAtLocation = new ArrayList<EquipmentUnit>();
   }
 
   public void setNodeID(String nodeID) {
@@ -84,10 +79,6 @@ public class Location extends RecursiveTreeObject<Location> {
 
   public void setRequestsAtLocation(List<ServiceRequest> requestsAtLocation) {
     this.requestsAtLocation = requestsAtLocation;
-  }
-
-  public void setUnitsAtLocation(List<EquipmentUnit> unitsAtLocation) {
-    this.unitsAtLocation = unitsAtLocation;
   }
 
   public String getNodeID() {
@@ -132,18 +123,6 @@ public class Location extends RecursiveTreeObject<Location> {
 
   public List<ServiceRequest> getRequestsAtLocation() {
     return requestsAtLocation;
-  }
-
-  public List<EquipmentUnit> getUnitsAtLocation() {
-    return unitsAtLocation;
-  }
-
-  public void addUnit(EquipmentUnit eqUnit) {
-    unitsAtLocation.add(eqUnit);
-  }
-
-  public void removeUnit(EquipmentUnit eqUnit) {
-    unitsAtLocation.remove(eqUnit);
   }
 
   public void addRequest(ServiceRequest sr) {

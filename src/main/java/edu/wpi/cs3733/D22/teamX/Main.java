@@ -1,27 +1,9 @@
 package edu.wpi.cs3733.D22.teamX;
 
-import edu.wpi.cs3733.D22.teamX.exceptions.loadSaveFromCSVException;
+import edu.wpi.cs3733.D22.teamX.exceptions.ServiceException;
 
 public class Main {
-
-  public static void main(String[] args) {
-    System.setProperty(
-        "prism.allowhidpi",
-        "false"); // Disables windows DPI scaling so the application fits all 1920x1080 screens.
-    //    try {
-    //      DatabaseCreator.initializeDB();
-    //    } catch (loadSaveFromCSVException e) {
-    //      e.printStackTrace();
-    //      System.exit(1);
-    //    }
-
+  public static void main(String[] args) throws ServiceException {
     App.launch(App.class, args);
-
-    try {
-      DatabaseCreator.closeDB();
-    } catch (loadSaveFromCSVException e) {
-      e.printStackTrace();
-      System.exit(1);
-    }
   }
 }

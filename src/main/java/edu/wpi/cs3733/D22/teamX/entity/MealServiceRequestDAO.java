@@ -1,11 +1,6 @@
 package edu.wpi.cs3733.D22.teamX.entity;
 
-import edu.wpi.cs3733.D22.teamX.ConnectionSingleton;
-import edu.wpi.cs3733.D22.teamX.DatabaseCreator;
 import java.io.*;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -15,14 +10,7 @@ public class MealServiceRequestDAO implements DAO<MealServiceRequest> {
   private static String csv = "MealRequests.csv";
 
   /** creates new MealServiceRequestDAO */
-  private MealServiceRequestDAO() {
-    if (ConnectionSingleton.getConnectionSingleton().getConnectionType().equals("client")) {
-      fillFromTable();
-    }
-    if (ConnectionSingleton.getConnectionSingleton().getConnectionType().equals("embedded")) {
-      mealServiceRequests.clear();
-    }
-  }
+  private MealServiceRequestDAO() {}
 
   /** Singleton helper Class */
   private static class SingletonHelper {
@@ -69,19 +57,6 @@ public class MealServiceRequestDAO implements DAO<MealServiceRequest> {
       }
       index++;
     }
-    if (index == intitialSize) {
-      throw new NoSuchElementException("request does not exist");
-    }
-    // remove from Database
-    try {
-      // create the statement
-      Statement statement = connection.createStatement();
-      // remove location from DB table
-      statement.executeUpdate(
-          "DELETE FROM MealServiceRequest WHERE requestID = '" + recordObject.getRequestID() + "'");
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
   }
 
   @Override
@@ -103,99 +78,13 @@ public class MealServiceRequestDAO implements DAO<MealServiceRequest> {
       }
       index++;
     }
-    if (index == intitialSize) {
-      throw new NoSuchElementException("request does not exist");
-    }
-    // update db table.
-    try {
-      // create the statement
-      Statement statement = connection.createStatement();
-      // update item in DB
-      statement.executeUpdate(
-          "UPDATE MealServiceRequest SET"
-              + " destination = '"
-              + recordObject.getDestination().getNodeID()
-              + "', status = '"
-              + recordObject.getStatus()
-              + "', assignee = '"
-              + recordObject.getAssigneeID()
-              + "', mainCourse = '"
-              + recordObject.getMainCourse()
-              + "', side = '"
-              + recordObject.getSide()
-              + "', drink = '"
-              + recordObject.getDrink()
-              + "', patientFor = '"
-              + recordObject.getPatientFor()
-              + "' WHERE requestID = '"
-              + recordObject.getRequestID()
-              + "'");
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
   }
 
   @Override
   public void addRecord(MealServiceRequest recordObject) {
     // list
     mealServiceRequests.add(recordObject);
-    // db
-    try {
-      Statement initialization = connection.createStatement();
-      StringBuilder msr = new StringBuilder();
-      msr.append("INSERT INTO MealServiceRequest VALUES (");
-      msr.append("'" + recordObject.getRequestID() + "', ");
-      msr.append("'" + recordObject.getDestination().getNodeID() + "', ");
-      msr.append("'" + recordObject.getStatus() + "', ");
-      msr.append("'" + recordObject.getAssigneeID() + "', ");
-      msr.append("'" + recordObject.getMainCourse() + "', ");
-      msr.append("'" + recordObject.getSide() + "', ");
-      msr.append("'" + recordObject.getDrink() + "', ");
-      msr.append("'" + recordObject.getPatientFor() + "'");
-      msr.append(")");
-      initialization.execute(msr.toString());
-    } catch (SQLException e) {
-      e.printStackTrace();
-      System.out.println("MealSR atabase could not be updated");
-    }
     recordObject.getDestination().addRequest(recordObject);
-  }
-
-  @Override
-  public void createTable() {
-    try {
-      Statement initialization = connection.createStatement();
-      initialization.execute(
-          "CREATE TABLE MealServiceRequest(requestID CHAR(8) PRIMARY KEY NOT NULL, "
-              + "destination CHAR(10),"
-              + "status CHAR(4),"
-              + "assignee CHAR(8),"
-              + "mainCourse VARCHAR(25),"
-              + "side VARCHAR(25),"
-              + "drink VARCHAR(25),"
-              + "patientFor VARCHAR(15),"
-              + "CONSTRAINT PMSR_dest_fk "
-              + "FOREIGN KEY (destination) REFERENCES Location(nodeID) "
-              + "ON DELETE SET NULL, "
-              + "CONSTRAINT PMSR_assignee_fk "
-              + "FOREIGN KEY (assignee) REFERENCES Employee(employeeID) "
-              + "ON DELETE SET NULL)");
-    } catch (SQLException e) {
-      System.out.println("MealServiceRequest table creation failed. Check output console.");
-      e.printStackTrace();
-      System.exit(1);
-    }
-  }
-
-  @Override
-  public void dropTable() {
-    try {
-      Statement dropMealServiceRequest = connection.createStatement();
-      dropMealServiceRequest.execute("DROP TABLE MealServiceRequest");
-    } catch (SQLException e) {
-      System.out.println("MealServiceRequest not dropped");
-      e.printStackTrace();
-    }
   }
 
   @Override
@@ -203,7 +92,7 @@ public class MealServiceRequestDAO implements DAO<MealServiceRequest> {
     try {
       LocationDAO locDestination = LocationDAO.getDAO();
       EmployeeDAO emplDAO = EmployeeDAO.getDAO();
-      InputStream PMSRCSV = DatabaseCreator.class.getResourceAsStream(csvFolderPath + csv);
+      InputStream PMSRCSV = this.getClass().getResourceAsStream(csvFolderPath + csv);
       BufferedReader PMSRCSVReader = new BufferedReader(new InputStreamReader(PMSRCSV));
       PMSRCSVReader.readLine();
       String nextFileLine;
@@ -233,114 +122,6 @@ public class MealServiceRequestDAO implements DAO<MealServiceRequest> {
       return false;
     } catch (IOException e) {
       e.printStackTrace();
-      return false;
-    }
-    // Insert locations from MealServiceReqCSV into db table
-    for (int i = 0; i < mealServiceRequests.size(); i++) {
-      try {
-        Statement initialization = connection.createStatement();
-        StringBuilder MealServiceRequest = new StringBuilder();
-        MealServiceRequest.append("INSERT INTO MealServiceRequest VALUES(");
-        MealServiceRequest.append("'" + mealServiceRequests.get(i).getRequestID() + "'" + ", ");
-        MealServiceRequest.append(
-            "'" + mealServiceRequests.get(i).getDestination().getNodeID() + "'" + ", ");
-        MealServiceRequest.append("'" + mealServiceRequests.get(i).getStatus() + "'" + ", ");
-        MealServiceRequest.append("'" + mealServiceRequests.get(i).getAssigneeID() + "'" + ", ");
-        MealServiceRequest.append("'" + mealServiceRequests.get(i).getMainCourse() + "'" + ", ");
-        MealServiceRequest.append("'" + mealServiceRequests.get(i).getSide() + "'" + ", ");
-        MealServiceRequest.append("'" + mealServiceRequests.get(i).getDrink() + "'" + ", ");
-        MealServiceRequest.append("'" + mealServiceRequests.get(i).getPatientFor() + "'");
-        MealServiceRequest.append(")");
-        initialization.execute(MealServiceRequest.toString());
-      } catch (SQLException e) {
-        System.out.println("Input for MealServiceReq " + i + " failed");
-        e.printStackTrace();
-        return false;
-      }
-    }
-    return true;
-  }
-
-  @Override
-  public boolean saveCSV(String dirPath) {
-    try {
-      FileWriter csvFile = new FileWriter(dirPath + csv, false);
-      csvFile.write("requestID,destination,status,assignee,service,patientFor");
-      for (int i = 0; i < mealServiceRequests.size(); i++) {
-        csvFile.write("\n" + mealServiceRequests.get(i).getRequestID() + ",");
-        if (mealServiceRequests.get(i).getDestination() == null) {
-          csvFile.write(',');
-        } else {
-          csvFile.write(mealServiceRequests.get(i).getDestination().getNodeID() + ",");
-        }
-        if (mealServiceRequests.get(i).getStatus() == null) {
-          csvFile.write(',');
-        } else {
-          csvFile.write(mealServiceRequests.get(i).getStatus() + ",");
-        }
-        if (mealServiceRequests.get(i).getAssignee() == null) {
-          csvFile.write(',');
-        } else {
-          csvFile.write(mealServiceRequests.get(i).getAssigneeID() + ",");
-        }
-        if (mealServiceRequests.get(i).getMainCourse() == null) {
-          csvFile.write(',');
-        } else {
-          csvFile.write(mealServiceRequests.get(i).getMainCourse() + ",");
-        }
-        if (mealServiceRequests.get(i).getSide() == null) {
-          csvFile.write(',');
-        } else {
-          csvFile.write(mealServiceRequests.get(i).getSide() + ",");
-        }
-        if (mealServiceRequests.get(i).getDrink() == null) {
-          csvFile.write(',');
-        } else {
-          csvFile.write(mealServiceRequests.get(i).getDrink() + ",");
-        }
-        if (mealServiceRequests.get(i).getPatientFor() == null) {
-          csvFile.write(',');
-        } else {
-          csvFile.write(mealServiceRequests.get(i).getPatientFor());
-        }
-      }
-      csvFile.flush();
-      csvFile.close();
-    } catch (IOException e) {
-      System.out.print(
-          "An error occurred when trying to write to the Meal Service Request CSV file.");
-      e.printStackTrace();
-      return false;
-    }
-    return true;
-  }
-
-  /**
-   * Fills mealServiceRequests with data from the sql table
-   *
-   * @return true if mealServiceRequests is successfully filled
-   */
-  @Override
-  public boolean fillFromTable() {
-    try {
-      mealServiceRequests.clear();
-      Statement fromTable = connection.createStatement();
-      ResultSet results = fromTable.executeQuery("SELECT * FROM MealServiceRequest");
-      while (results.next()) {
-        MealServiceRequest toAdd = new MealServiceRequest();
-        toAdd.setRequestID(results.getString("requestID"));
-        toAdd.setDestination(LocationDAO.getDAO().getRecord(results.getString("destination")));
-        toAdd.setStatus(results.getString("status"));
-        toAdd.setAssignee(EmployeeDAO.getDAO().getRecord(results.getString("assignee")));
-        toAdd.setMainCourse(results.getString("mainCourse"));
-        toAdd.setSide(results.getString("side"));
-        toAdd.setDrink(results.getString("drink"));
-        toAdd.setPatientFor(results.getString("patientFor"));
-        mealServiceRequests.add(toAdd);
-        toAdd.getDestination().addRequest(toAdd);
-      }
-    } catch (SQLException e) {
-      System.out.println("MealServiceRequestDAO could not be filled from the sql table");
       return false;
     }
     return true;

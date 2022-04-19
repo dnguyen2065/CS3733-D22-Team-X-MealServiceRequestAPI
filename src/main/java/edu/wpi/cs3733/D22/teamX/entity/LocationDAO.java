@@ -1,11 +1,6 @@
 package edu.wpi.cs3733.D22.teamX.entity;
 
-import edu.wpi.cs3733.D22.teamX.ConnectionSingleton;
-import edu.wpi.cs3733.D22.teamX.DatabaseCreator;
 import java.io.*;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -15,14 +10,7 @@ public class LocationDAO implements DAO<Location> {
   private static final String csv = "TowerLocationsX.csv";
 
   /** Creates a new LocationDAO object. */
-  private LocationDAO() {
-    if (ConnectionSingleton.getConnectionSingleton().getConnectionType().equals("client")) {
-      fillFromTable();
-    }
-    if (ConnectionSingleton.getConnectionSingleton().getConnectionType().equals("embedded")) {
-      locations.clear();
-    }
-  }
+  private LocationDAO() {}
 
   /** Singleton Helper Class. */
   private static class SingletonHelper {
@@ -68,22 +56,6 @@ public class LocationDAO implements DAO<Location> {
       }
       locationInd++;
     }
-
-    // if the location is found, delete it from the Location table
-    if (locationInd < locations.size()) {
-      try {
-        // create the statement
-        Statement statement = connection.createStatement();
-        // remove location from DB table
-        statement.executeUpdate(
-            "DELETE FROM Location WHERE nodeID = '" + recordObject.getNodeID() + "'");
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-    } else {
-      System.out.println("Location does not exist");
-      throw new NoSuchElementException("request does not exist (in delete)");
-    }
   }
 
   @Override
@@ -98,98 +70,17 @@ public class LocationDAO implements DAO<Location> {
       }
       locationInd++;
     }
-
-    // if the location is found, update the Location table
-    if (locationInd < locations.size()) {
-      try {
-        // create the statement
-        Statement statement = connection.createStatement();
-        // update sql object
-        statement.executeUpdate(
-            "UPDATE Location SET xCoord = "
-                + recordObject.getxCoord()
-                + ", yCoord = "
-                + recordObject.getyCoord()
-                + ", floor = '"
-                + recordObject.getFloor()
-                + "', building = '"
-                + recordObject.getBuilding()
-                + "', nodeType = '"
-                + recordObject.getNodeType()
-                + "', longName = '"
-                + recordObject.getLongName()
-                + "', shortName = '"
-                + recordObject.getShortName()
-                + "' "
-                + "WHERE nodeID = '"
-                + recordObject.getNodeID()
-                + "'");
-
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-    } else {
-      System.out.println("location does not exist");
-      throw new NoSuchElementException("request does not exist (in update)");
-    }
   }
 
   @Override
   public void addRecord(Location recordObject) {
     locations.add(recordObject);
-    try {
-      Statement initialization = connection.createStatement();
-      StringBuilder insertLocation = new StringBuilder();
-      insertLocation.append("INSERT INTO Location VALUES(");
-      insertLocation.append("'" + recordObject.getNodeID() + "'" + ", ");
-      insertLocation.append(recordObject.getxCoord() + ", ");
-      insertLocation.append(recordObject.getyCoord() + ", ");
-      insertLocation.append("'" + recordObject.getFloor() + "'" + ", ");
-      insertLocation.append("'" + recordObject.getBuilding() + "'" + ", ");
-      insertLocation.append("'" + recordObject.getNodeType() + "'" + ", ");
-      insertLocation.append("'" + recordObject.getLongName() + "'" + ", ");
-      insertLocation.append("'" + recordObject.getShortName() + "'");
-      insertLocation.append(")");
-      initialization.execute(insertLocation.toString());
-    } catch (SQLException e) {
-      System.out.println("Location database could not be updated");
-      return;
-    }
-  }
-
-  @Override
-  public void createTable() {
-    try {
-      Statement initialization = connection.createStatement();
-      initialization.execute(
-          "CREATE TABLE Location(nodeID CHAR(10) PRIMARY KEY NOT NULL, "
-              + "xCoord INT, yCoord INT, "
-              + "floor VARCHAR(2), "
-              + "building VARCHAR(10), "
-              + "nodeType CHAR(4), "
-              + "longName VARCHAR(50), shortName VARCHAR(30))");
-    } catch (SQLException e) {
-      System.out.println("Location table creation failed. Check output console.");
-      e.printStackTrace();
-      System.exit(1);
-    }
-  }
-
-  @Override
-  public void dropTable() {
-    try {
-      Statement statement = connection.createStatement();
-      statement.execute("DROP TABLE Location");
-    } catch (SQLException e) {
-      System.out.println("Location not dropped");
-      e.printStackTrace();
-    }
   }
 
   @Override
   public boolean loadCSV() {
     try {
-      InputStream tlCSV = DatabaseCreator.class.getResourceAsStream(csvFolderPath + csv);
+      InputStream tlCSV = this.getClass().getResourceAsStream(csvFolderPath + csv);
       BufferedReader tlCSVReader = new BufferedReader(new InputStreamReader(tlCSV));
       tlCSVReader.readLine();
       String nextFileLine;
@@ -220,102 +111,6 @@ public class LocationDAO implements DAO<Location> {
       return false;
     } catch (IOException e) {
       e.printStackTrace();
-      return false;
-    }
-
-    // Insert locations from locationsFromCSV into db table
-    for (int i = 0; i < locations.size(); i++) {
-      try {
-        Statement initialization = connection.createStatement();
-        StringBuilder insertLocation = new StringBuilder();
-        insertLocation.append("INSERT INTO Location VALUES(");
-        insertLocation.append("'" + locations.get(i).getNodeID() + "'" + ", ");
-        insertLocation.append(locations.get(i).getxCoord() + ", ");
-        insertLocation.append(locations.get(i).getyCoord() + ", ");
-        insertLocation.append("'" + locations.get(i).getFloor() + "'" + ", ");
-        insertLocation.append("'" + locations.get(i).getBuilding() + "'" + ", ");
-        insertLocation.append("'" + locations.get(i).getNodeType() + "'" + ", ");
-        insertLocation.append("'" + locations.get(i).getLongName() + "'" + ", ");
-        insertLocation.append("'" + locations.get(i).getShortName() + "'");
-        insertLocation.append(")");
-        initialization.execute(insertLocation.toString());
-      } catch (SQLException e) {
-        System.out.println("Input for Location " + i + " failed");
-        e.printStackTrace();
-        return false;
-      }
-    }
-    return true;
-  }
-
-  @Override
-  public boolean saveCSV(String dirPath) {
-    try {
-      FileWriter csvFile = new FileWriter(dirPath + csv, false);
-      csvFile.write("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName");
-      for (int i = 0; i < locations.size(); i++) {
-        csvFile.write("\n" + locations.get(i).getNodeID() + ",");
-        csvFile.write(locations.get(i).getxCoord() + ",");
-        csvFile.write(locations.get(i).getyCoord() + ",");
-        if (locations.get(i).getFloor() == null) {
-          csvFile.write(',');
-        } else {
-          csvFile.write(locations.get(i).getFloor() + ",");
-        }
-        if (locations.get(i).getBuilding() == null) {
-          csvFile.write(',');
-        } else {
-          csvFile.write(locations.get(i).getBuilding() + ",");
-        }
-        if (locations.get(i).getNodeType() == null) {
-          csvFile.write(',');
-        } else {
-          csvFile.write(locations.get(i).getNodeType() + ",");
-        }
-        if (locations.get(i).getLongName() == null) {
-          csvFile.write(',');
-        } else {
-          csvFile.write(locations.get(i).getLongName() + ",");
-        }
-        if (locations.get(i).getShortName() != null) {
-          csvFile.write(locations.get(i).getShortName());
-        }
-      }
-      csvFile.flush();
-      csvFile.close();
-    } catch (IOException e) {
-      System.out.println("Error occurred when updating locations csv file.");
-      e.printStackTrace();
-      return false;
-    }
-    return true;
-  }
-
-  /**
-   * Fills locations with data from the sql table
-   *
-   * @return true if locations is successfully filled
-   */
-  @Override
-  public boolean fillFromTable() {
-    try {
-      locations.clear();
-      Statement fromTable = connection.createStatement();
-      ResultSet results = fromTable.executeQuery("SELECT * FROM Location");
-      while (results.next()) {
-        Location toAdd = new Location();
-        toAdd.setNodeID(results.getString("nodeID"));
-        toAdd.setxCoord(results.getInt("xCoord"));
-        toAdd.setyCoord(results.getInt("yCoord"));
-        toAdd.setFloor(results.getString("floor"));
-        toAdd.setBuilding(results.getString("building"));
-        toAdd.setNodeType(results.getString("nodeType"));
-        toAdd.setLongName(results.getString("longName"));
-        toAdd.setShortName(results.getString("shortName"));
-        locations.add(toAdd);
-      }
-    } catch (SQLException e) {
-      System.out.println("LocationDAO could not be filled from the sql table");
       return false;
     }
     return true;
