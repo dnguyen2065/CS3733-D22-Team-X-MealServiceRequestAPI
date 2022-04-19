@@ -1,6 +1,7 @@
-package edu.wpi.cs3733.D22.teamX.entity;
+package edu.wpi.cs3733.D22.teamX.api.entity;
 
-import edu.wpi.cs3733.D22.teamX.MealRequestAPI;
+import edu.wpi.cs3733.D22.teamX.api.MealRequestAPI;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;

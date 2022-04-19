@@ -1,7 +1,10 @@
-package edu.wpi.cs3733.D22.teamX;
+package edu.wpi.cs3733.D22.teamX.api;
 
+import edu.wpi.cs3733.D22.teamX.api.entity.EmployeeDAO;
+import edu.wpi.cs3733.D22.teamX.api.entity.LocationDAO;
+import edu.wpi.cs3733.D22.teamX.api.entity.MealServiceRequestDAO;
 import edu.wpi.cs3733.D22.teamX.entity.*;
-import edu.wpi.cs3733.D22.teamX.exceptions.ServiceException;
+import edu.wpi.cs3733.D22.teamX.api.exceptions.ServiceException;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,7 +32,7 @@ public class MealRequestAPI {
       Scene scene = new Scene(root);
       String css =
           App.class
-              .getResource("/edu/wpi/cs3733/D22/teamX/stylesheets/default.css")
+              .getResource("/edu/wpi/cs3733/D22/teamX/api/stylesheets/default.css")
               .toExternalForm();
       scene.getStylesheets().add(css);
       stage.initModality(Modality.WINDOW_MODAL);

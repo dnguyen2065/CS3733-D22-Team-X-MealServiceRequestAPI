@@ -1,5 +1,6 @@
-package edu.wpi.cs3733.D22.teamX.controllers;
+package edu.wpi.cs3733.D22.teamX.api.controllers;
 
+import edu.wpi.cs3733.D22.teamX.api.entity.*;
 import edu.wpi.cs3733.D22.teamX.entity.*;
 import java.net.URL;
 import java.util.ArrayList;

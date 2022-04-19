@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.D22.teamX.entity;
+package edu.wpi.cs3733.D22.teamX.api.entity;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.D22.teamX.entity;
+package edu.wpi.cs3733.D22.teamX.api.entity;
 
 /** Represents a meal service request */
 public class MealServiceRequest extends ServiceRequest {

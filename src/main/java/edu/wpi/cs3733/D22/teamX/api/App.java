@@ -1,6 +1,6 @@
-package edu.wpi.cs3733.D22.teamX;
+package edu.wpi.cs3733.D22.teamX.api;
 
-import edu.wpi.cs3733.D22.teamX.exceptions.ServiceException;
+import edu.wpi.cs3733.D22.teamX.api.exceptions.ServiceException;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ public class App extends Application {
   public void start(Stage primaryStage) throws ServiceException {
     try {
       new MealRequestAPI()
-          .run(0, 0, 0, 0, "edu/wpi/cs3733/D22/teamX/stylesheets/default.css", "hello", "world");
+          .run(0, 0, 0, 0, "edu/wpi/cs3733/D22/teamX/api/stylesheets/default.css", "hello", "world");
     } catch (ServiceException se) {
       throw new ServiceException("MealRequestAPI couldn't run");
     }
