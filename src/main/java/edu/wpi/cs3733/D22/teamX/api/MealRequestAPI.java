@@ -48,8 +48,9 @@ public class MealRequestAPI {
             System.out.println(
                 "MealServiceRequest (requestID): (locationNodeID), (employeeID), (patientID), "
                     + "(mainCourse), (side), (drink)");
-            for (MealServiceRequest msr : MealServiceRequestDAO.getDAO().getAllRecords())
+            for (MealServiceRequest msr : MealServiceRequestDAO.getDAO().getAllRecords()) {
               System.out.println(msr);
+            }
           });
     } catch (IOException e) {
       e.printStackTrace();

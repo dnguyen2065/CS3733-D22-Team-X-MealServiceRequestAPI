@@ -24,9 +24,11 @@ public class DatabaseCreator {
       System.exit(1);
     }
     System.out.println("Apache Derby driver registered!");
-    dropAllTables();
-    createAllTables();
-    loadAllCSV();
+    if (LocationDAO.getDAO().getAllRecords().size() == 0) {
+      dropAllTables();
+      createAllTables();
+      loadAllCSV();
+    }
   }
 
   /** Saves the data from the database to the appropriate CSV files and closes the database. */

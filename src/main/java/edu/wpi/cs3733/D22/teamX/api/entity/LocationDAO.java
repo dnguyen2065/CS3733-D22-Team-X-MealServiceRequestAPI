@@ -172,6 +172,7 @@ public class LocationDAO implements DAO<Location> {
     try {
       Statement statement = connection.createStatement();
       statement.execute("DROP TABLE Location");
+      System.out.println("Location dropped");
     } catch (SQLException e) {
       System.out.println("Location not dropped");
       e.printStackTrace();

@@ -184,6 +184,7 @@ public class MealServiceRequestDAO implements DAO<MealServiceRequest> {
     try {
       Statement dropMealServiceRequest = connection.createStatement();
       dropMealServiceRequest.execute("DROP TABLE MealServiceRequest");
+      System.out.println("MealServiceRequest dropped");
     } catch (SQLException e) {
       System.out.println("MealServiceRequest not dropped");
       e.printStackTrace();

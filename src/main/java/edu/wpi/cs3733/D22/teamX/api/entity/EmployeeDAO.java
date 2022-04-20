@@ -153,6 +153,7 @@ public class EmployeeDAO implements DAO<Employee> {
     try {
       Statement dropEmployee = connection.createStatement();
       dropEmployee.execute("DROP TABLE Employee");
+      System.out.println("Employee dropped");
     } catch (SQLException e) {
       System.out.println("Employee not dropped");
       e.printStackTrace();
