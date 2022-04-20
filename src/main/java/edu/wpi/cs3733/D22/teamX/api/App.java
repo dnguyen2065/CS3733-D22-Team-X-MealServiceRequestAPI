@@ -16,8 +16,14 @@ public class App extends Application {
   @Override
   public void start(Stage primaryStage) throws ServiceException {
     try {
-      new MealRequestAPI()
-          .run(0, 0, 0, 0, "edu/wpi/cs3733/D22/teamX/api/stylesheets/default.css", "hello", "world");
+      MealRequestAPI.run(
+          470,
+          180,
+          600,
+          600,
+          "/edu/wpi/cs3733/D22/teamX/api/stylesheets/default.css",
+          "hello",
+          "world");
     } catch (ServiceException se) {
       throw new ServiceException("MealRequestAPI couldn't run");
     }

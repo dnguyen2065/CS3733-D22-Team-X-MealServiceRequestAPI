@@ -6,7 +6,7 @@ plugins {
     id "io.freefair.lombok" version "5.0.0-rc6"
     id 'org.openjfx.javafxplugin' version '0.0.10'
 }
-mainClassName = 'edu.wpi.cs3733.D22.teamX.Main'
+mainClassName = 'edu.wpi.cs3733.D22.teamX.api.Main'
 
 repositories {
     mavenCentral()
@@ -50,15 +50,9 @@ test {
     useJUnit()
 }
 
-jar {
-    manifest {
-        attributes 'Main-Class': mainClassName
-    }
-}
-
 def codeCoverageExcludes = [
-        'edu.wpi.cs3733.D22.teamX.App',
-        'edu.wpi.cs3733.D22.teamX.Main',
+        'edu.wpi.cs3733.D22.teamX.api.App',
+        'edu.wpi.cs3733.D22.teamX.api.Main',
 ]
 
 jacoco {
@@ -110,7 +104,7 @@ spotless {
 }
 
 // Include dependent libraries in archive.
-mainClassName = "edu.wpi.cs3733.D22.teamX.Main"
+mainClassName = "edu.wpi.cs3733.D22.teamX.api.Main"
 
 jar {
     manifest {

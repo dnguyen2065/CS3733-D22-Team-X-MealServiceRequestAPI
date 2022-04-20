@@ -3,7 +3,6 @@ package edu.wpi.cs3733.D22.teamX.api;
 import edu.wpi.cs3733.D22.teamX.api.entity.EmployeeDAO;
 import edu.wpi.cs3733.D22.teamX.api.entity.LocationDAO;
 import edu.wpi.cs3733.D22.teamX.api.entity.MealServiceRequestDAO;
-import edu.wpi.cs3733.D22.teamX.entity.*;
 import edu.wpi.cs3733.D22.teamX.api.exceptions.ServiceException;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class MealRequestAPI {
-  void run(
+  public static void run(
       int xCoord,
       int yCoord,
       int windowWidth,
@@ -27,18 +26,19 @@ public class MealRequestAPI {
       LocationDAO.getDAO().loadCSV();
       EmployeeDAO.getDAO().loadCSV();
       MealServiceRequestDAO.getDAO().loadCSV();
-      Parent root = FXMLLoader.load(getClass().getResource("views/mealRequest.fxml"));
+      Parent root = FXMLLoader.load(MealRequestAPI.class.getResource("views/mealRequest.fxml"));
       Stage stage = new Stage();
       Scene scene = new Scene(root);
-      String css =
-          App.class
-              .getResource("/edu/wpi/cs3733/D22/teamX/api/stylesheets/default.css")
-              .toExternalForm();
+      String css = App.class.getResource(cssPath).toExternalForm();
       scene.getStylesheets().add(css);
       stage.initModality(Modality.WINDOW_MODAL);
       stage.initStyle(StageStyle.DECORATED);
       stage.setTitle("MealRequestAPI");
       stage.setScene(scene);
+      stage.setX(xCoord);
+      stage.setY(yCoord);
+      stage.setWidth(windowWidth);
+      stage.setHeight(windowLength);
       stage.show();
     } catch (IOException e) {
       e.printStackTrace();
