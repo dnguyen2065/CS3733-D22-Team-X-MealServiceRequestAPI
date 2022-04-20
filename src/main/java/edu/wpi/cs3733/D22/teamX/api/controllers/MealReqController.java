@@ -171,4 +171,13 @@ public class MealReqController implements Initializable {
     mealDAO.addRecord(request);
     this.resetFields();
   }
+
+  public void setDestinationField(String nodeID) {
+    Location loc = locationDAO.getRecord(nodeID);
+    if (loc != null) {
+      this.destinationDrop.getSelectionModel().select(loc.getShortName());
+    } else {
+      System.out.println("nodeID not found");
+    }
+  }
 }

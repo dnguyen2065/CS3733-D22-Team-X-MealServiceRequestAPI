@@ -1,9 +1,8 @@
 package edu.wpi.cs3733.D22.teamX.api;
 
-import edu.wpi.cs3733.D22.teamX.api.entity.EmployeeDAO;
-import edu.wpi.cs3733.D22.teamX.api.entity.LocationDAO;
-import edu.wpi.cs3733.D22.teamX.api.entity.MealServiceRequestDAO;
+import edu.wpi.cs3733.D22.teamX.api.controllers.MealReqController;
 import edu.wpi.cs3733.D22.teamX.api.exceptions.ServiceException;
+import edu.wpi.cs3733.D22.teamX.api.exceptions.loadSaveFromCSVException;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,10 +22,10 @@ public class MealRequestAPI {
       String originLocationID)
       throws ServiceException {
     try {
-      LocationDAO.getDAO().loadCSV();
-      EmployeeDAO.getDAO().loadCSV();
-      MealServiceRequestDAO.getDAO().loadCSV();
-      Parent root = FXMLLoader.load(MealRequestAPI.class.getResource("views/mealRequest.fxml"));
+      DatabaseCreator.initializeDB();
+      FXMLLoader loader =
+          new FXMLLoader(MealRequestAPI.class.getResource("views/mealRequest.fxml"));
+      Parent root = loader.load();
       Stage stage = new Stage();
       Scene scene = new Scene(root);
       String css = App.class.getResource(cssPath).toExternalForm();
@@ -39,10 +38,14 @@ public class MealRequestAPI {
       stage.setY(yCoord);
       stage.setWidth(windowWidth);
       stage.setHeight(windowLength);
+      MealReqController controller = (MealReqController) loader.getController();
+      controller.setDestinationField(destLocationID);
       stage.show();
     } catch (IOException e) {
       e.printStackTrace();
       throw new ServiceException("MealRequestAPI had a problem starting up");
+    } catch (loadSaveFromCSVException e) {
+      throw new RuntimeException(e);
     }
   }
 }

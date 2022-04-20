@@ -22,8 +22,8 @@ public class App extends Application {
           600,
           600,
           "/edu/wpi/cs3733/D22/teamX/api/stylesheets/default.css",
-          "hello",
-          "world");
+          "FDEPT00101",
+          "Hello");
     } catch (ServiceException se) {
       throw new ServiceException("MealRequestAPI couldn't run");
     }
