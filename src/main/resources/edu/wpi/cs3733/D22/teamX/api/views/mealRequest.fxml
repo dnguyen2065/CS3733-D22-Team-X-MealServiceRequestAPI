@@ -35,54 +35,48 @@
             <RowConstraints maxHeight="-Infinity" minHeight="40.0" prefHeight="80.0" valignment="BOTTOM" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="choiceBoxLabel" text="Patient Names">
+            <Label fx:id="choiceBoxLabel" text="Patient Name">
                <font>
                   <Font size="28.0" />
                </font>
             </Label>
-            <Label fx:id="choiceBoxLabel1" text="Drink Selection" GridPane.rowIndex="1">
+            <Label fx:id="choiceBoxLabel1" text="Assign Staff" GridPane.rowIndex="1">
                <font>
                   <Font size="28.0" />
                </font>
             </Label>
-            <Label fx:id="choiceBoxLabel2" text="Assigned Staff" GridPane.rowIndex="2">
+            <Label fx:id="choiceBoxLabel2" text="Request Status" GridPane.rowIndex="2">
                <font>
                   <Font size="28.0" />
                </font>
             </Label>
-            <Label fx:id="choiceBoxLabel11" text="Side Selection" GridPane.rowIndex="3">
+            <Label fx:id="choiceBoxLabel11" text="Destination" GridPane.rowIndex="3">
                <font>
                   <Font size="28.0" />
                </font>
             </Label>
-            <Label fx:id="choiceBoxLabel3" text="Request Status" GridPane.rowIndex="4">
+            <Label fx:id="choiceBoxLabel3" text="Main Selection" GridPane.rowIndex="4">
                <font>
                   <Font size="28.0" />
                </font>
             </Label>
-            <Label fx:id="choiceBoxLabel111" alignment="CENTER" text="Main Selection" GridPane.rowIndex="5">
+            <Label fx:id="choiceBoxLabel111" alignment="CENTER" text="Drink Selection" GridPane.rowIndex="5">
                <font>
                   <Font size="28.0" />
                </font>
             </Label>
-            <Label fx:id="choiceBoxLabel1111" alignment="CENTER" text="Destination" GridPane.rowIndex="6">
+            <Label fx:id="choiceBoxLabel1111" alignment="CENTER" text="Side Selection" GridPane.rowIndex="6">
                <font>
                   <Font size="28.0" />
                </font>
             </Label>
-            <Label fx:id="choiceBoxLabel11111" alignment="CENTER" layoutX="10.0" layoutY="436.0" text="Exemptions" GridPane.rowIndex="7">
-               <font>
-                  <Font size="28.0" />
-               </font>
-            </Label>
-            <ChoiceBox fx:id="destinationDrop" prefHeight="35.0" prefWidth="229.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <ChoiceBox fx:id="mainSel" prefHeight="35.0" prefWidth="229.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <ChoiceBox fx:id="serviceStatus" prefHeight="38.0" prefWidth="229.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <ChoiceBox fx:id="sideSel" prefHeight="36.0" prefWidth="229.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <ChoiceBox fx:id="assignStaff" prefHeight="36.0" prefWidth="229.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <ChoiceBox fx:id="drinkSel" prefHeight="33.0" prefWidth="229.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ChoiceBox fx:id="sideSel" prefHeight="35.0" prefWidth="229.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <ChoiceBox fx:id="drinkSel" prefHeight="35.0" prefWidth="229.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <ChoiceBox fx:id="mainSel" prefHeight="38.0" prefWidth="229.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ChoiceBox fx:id="destinationDrop" prefHeight="36.0" prefWidth="229.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ChoiceBox fx:id="serviceStatus" prefHeight="36.0" prefWidth="229.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ChoiceBox fx:id="assignStaff" prefHeight="33.0" prefWidth="229.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <ChoiceBox fx:id="patientNames" prefHeight="34.0" prefWidth="229.0" GridPane.columnIndex="1" />
-            <ChoiceBox fx:id="exemptionSel" layoutX="360.0" layoutY="432.0" prefHeight="35.0" prefWidth="229.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <JFXButton fx:id="submitButton" mnemonicParsing="false" onAction="#submitButton" prefWidth="212.0" text="Submit Request" textFill="#446fdc" GridPane.rowIndex="8">
                <font>
                   <Font name="System Bold" size="24.0" />

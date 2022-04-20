@@ -66,4 +66,17 @@ public class MealServiceRequest extends ServiceRequest {
   public void setMealType(String mainCourse) {
     this.mainCourse = mainCourse;
   }
+
+  @Override
+  public String toString() {
+    StringBuilder strr = new StringBuilder("MealServiceRequest ");
+    strr.append(getRequestID()).append(": ");
+    strr.append(getDestination().getNodeID()).append(", ");
+    strr.append(getAssigneeID()).append(", ");
+    strr.append(patientFor).append(", ");
+    strr.append(mainCourse).append(", ");
+    strr.append(side).append(", ");
+    strr.append(drink);
+    return strr.toString();
+  }
 }

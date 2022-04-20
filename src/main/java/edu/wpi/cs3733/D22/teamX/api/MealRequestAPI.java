@@ -1,6 +1,8 @@
 package edu.wpi.cs3733.D22.teamX.api;
 
 import edu.wpi.cs3733.D22.teamX.api.controllers.MealReqController;
+import edu.wpi.cs3733.D22.teamX.api.entity.MealServiceRequest;
+import edu.wpi.cs3733.D22.teamX.api.entity.MealServiceRequestDAO;
 import edu.wpi.cs3733.D22.teamX.api.exceptions.ServiceException;
 import edu.wpi.cs3733.D22.teamX.api.exceptions.loadSaveFromCSVException;
 import java.io.IOException;
@@ -41,6 +43,14 @@ public class MealRequestAPI {
       MealReqController controller = (MealReqController) loader.getController();
       controller.setDestinationField(destLocationID);
       stage.show();
+      stage.setOnCloseRequest(
+          t -> {
+            System.out.println(
+                "MealServiceRequest (requestID): (locationNodeID), (employeeID), (patientID), "
+                    + "(mainCourse), (side), (drink)");
+            for (MealServiceRequest msr : MealServiceRequestDAO.getDAO().getAllRecords())
+              System.out.println(msr);
+          });
     } catch (IOException e) {
       e.printStackTrace();
       throw new ServiceException("MealRequestAPI had a problem starting up");
